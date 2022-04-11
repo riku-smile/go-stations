@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -9,6 +11,7 @@ import (
 	"github.com/TechBowl-japan/go-stations/db"
 	"github.com/TechBowl-japan/go-stations/handler"
 	"github.com/TechBowl-japan/go-stations/handler/router"
+	"github.com/TechBowl-japan/go-stations/model"
 )
 
 func main() {
@@ -56,5 +59,24 @@ func realMain() error {
 	http.ListenAndServe(port, mux)
 
 	mux.Handle("/healthz", handler.NewHealthzHandler())
+
+	mux.HandleFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
+		var ctreq model.CreateTODORequest
+		// var ctres model.CreateTODOResponse
+		if r.Method == "POST" {
+			err := json.NewDecoder(r.Body).Decode(&ctreq)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+
+		// TODO: エンコード設定
+		if ctreq.Subject == "" {
+			w.WriteHeader(http.StatusBadRequest)
+		} else {
+			handler.NewTODOHandler().Create(r.Context(), &ctreq)
+		}
+
+	})
 	return nil
 }
