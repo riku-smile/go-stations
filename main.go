@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/TechBowl-japan/go-stations/db"
-	"github.com/TechBowl-japan/go-stations/handler/router"
+	"github.com/riku-smile/go-stations/db"
+	"github.com/riku-smile/go-stations/handler/router"
 )
 
 func main() {

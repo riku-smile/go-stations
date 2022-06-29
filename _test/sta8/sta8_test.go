@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TechBowl-japan/go-stations/db"
+	"github.com/riku-smile/go-stations/db"
 )
 
 func TestStation8(t *testing.T) {

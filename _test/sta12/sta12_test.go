@@ -11,9 +11,9 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/mattn/go-sqlite3"
 
-	"github.com/TechBowl-japan/go-stations/db"
-	"github.com/TechBowl-japan/go-stations/model"
-	"github.com/TechBowl-japan/go-stations/service"
+	"github.com/riku-smile/go-stations/db"
+	"github.com/riku-smile/go-stations/model"
+	"github.com/riku-smile/go-stations/service"
 )
 
 func TestStation12(t *testing.T) {

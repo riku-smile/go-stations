@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TechBowl-japan/go-stations/db"
 	"github.com/mattn/go-sqlite3"
+	"github.com/riku-smile/go-stations/db"
 )
 
 func TestNewDB(t *testing.T) {

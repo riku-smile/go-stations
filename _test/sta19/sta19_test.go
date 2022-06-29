@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/TechBowl-japan/go-stations/db"
-	"github.com/TechBowl-japan/go-stations/handler/router"
+	"github.com/riku-smile/go-stations/db"
+	"github.com/riku-smile/go-stations/handler/router"
 )
 
 func TestStation19(t *testing.T) {

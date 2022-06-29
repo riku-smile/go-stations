@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/TechBowl-japan/go-stations/model"
-	"github.com/TechBowl-japan/go-stations/service"
+	"github.com/riku-smile/go-stations/model"
+	"github.com/riku-smile/go-stations/service"
 )
 
 // A TODOHandler implements handling REST endpoints.
