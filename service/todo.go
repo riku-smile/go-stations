@@ -27,26 +27,44 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 		confirm = `SELECT subject, description, created_at, updated_at FROM todos WHERE id = ?`
 	)
 	// model.TODOの構造体を持ってくる
-	todo := &model.TODO{}
+	var todo model.TODO
 
 	// todosのsubject, descriptionに、CreateTODOの引数であるsubject, descriptionを挿入する
-	res, err := s.db.ExecContext(ctx, insert, subject, description)
+	res, err := s.db.ExecContext(
+		ctx,
+		insert,
+		subject,
+		description,
+	)
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	// ExecContextの戻り値から登録したTODOのIDを代入
 	rows, err := res.LastInsertId()
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	// TODOのIDから対象のTODOのsubject, description, created_at, updated_atを読み取る
-	err = s.db.QueryRowContext(ctx, confirm, rows).Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
+	err = s.db.QueryRowContext(
+		ctx,
+		confirm,
+		rows,
+	).Scan(
+		&todo.Subject,
+		&todo.Description,
+		&todo.CreatedAt,
+		&todo.UpdatedAt,
+	)
+
 	if err != nil {
 		fmt.Println(err)
 	}
-	return todo, err
+
+	return &todo, err
 }
 
 // ReadTODO reads TODOs on DB.
