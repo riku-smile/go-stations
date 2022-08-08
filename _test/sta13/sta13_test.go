@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/TechBowl-japan/go-stations/db"
-	"github.com/TechBowl-japan/go-stations/handler/router"
+	"github.com/riku-smile/go-stations/db"
+	"github.com/riku-smile/go-stations/handler/router"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"

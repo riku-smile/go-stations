@@ -2,9 +2,12 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
 
-	"github.com/TechBowl-japan/go-stations/model"
-	"github.com/TechBowl-japan/go-stations/service"
+	"github.com/riku-smile/go-stations/model"
+	"github.com/riku-smile/go-stations/service"
 )
 
 // A TODOHandler implements handling REST endpoints.
@@ -19,9 +22,50 @@ func NewTODOHandler(svc *service.TODOService) *TODOHandler {
 	}
 }
 
+func (h *TODOHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	var req *model.CreateTODORequest
+	// メソッドの判定
+	if r.Method == "POST" {
+		// CreateTODORequestをデコード
+		err := json.NewDecoder(r.Body).Decode(&req)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+	// Subjectが空であることを判定
+	if req.Subject == "" {
+		// BadRequestを渡す
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Subjectが空でない場合
+	ctx := r.Context()
+	res, err := h.Create(
+		ctx,
+		req,
+	)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// CreateTODOをエンコード
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		fmt.Println(err)
+	}
+
+	// StatusOKを返す
+	w.WriteHeader(http.StatusOK)
+}
+
 // Create handles the endpoint that creates the TODO.
 func (h *TODOHandler) Create(ctx context.Context, req *model.CreateTODORequest) (*model.CreateTODOResponse, error) {
-	_, _ = h.svc.CreateTODO(ctx, "", "")
+	_, err := h.svc.CreateTODO(ctx, req.Subject, req.Description)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	return &model.CreateTODOResponse{}, nil
 }
 

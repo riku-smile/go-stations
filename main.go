@@ -1,14 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/TechBowl-japan/go-stations/db"
-	"github.com/TechBowl-japan/go-stations/handler"
-	"github.com/TechBowl-japan/go-stations/handler/router"
+	"github.com/riku-smile/go-stations/db"
+	"github.com/riku-smile/go-stations/handler/router"
 )
 
 func main() {
@@ -51,10 +51,11 @@ func realMain() error {
 
 	// set http handlers
 	mux := router.NewRouter(todoDB)
+	fmt.Printf("built server: %v", port)
 
 	// TODO: ここから実装を行う
-	http.ListenAndServe(port, mux)
 
-	mux.Handle("/healthz", handler.NewHealthzHandler())
+	log.Fatal(http.ListenAndServe(port, mux))
+
 	return nil
 }
