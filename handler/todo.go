@@ -23,26 +23,40 @@ func NewTODOHandler(svc *service.TODOService) *TODOHandler {
 }
 
 func (h *TODOHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	req := &model.CreateTODORequest{}
+	var req *model.CreateTODORequest
+	// メソッドの判定
 	if r.Method == "POST" {
-		err := json.NewDecoder(r.Body).Decode(req)
+		// CreateTODORequestをデコード
+		err := json.NewDecoder(r.Body).Decode(&req)
 		if err != nil {
 			fmt.Println(err)
 		}
 	}
+	// Subjectが空であることを判定
 	if req.Subject == "" {
+		// BadRequestを渡す
 		w.WriteHeader(http.StatusBadRequest)
-	} else {
-		ctx := r.Context()
-		tr, err := h.Create(ctx, req)
-		if err != nil {
-			fmt.Println(err)
-		}
-		if err := json.NewEncoder(w).Encode(tr); err != nil {
-			fmt.Println(err)
-		}
-		w.WriteHeader(http.StatusOK)
+		return
 	}
+
+	// Subjectが空でない場合
+	ctx := r.Context()
+	res, err := h.Create(
+		ctx,
+		req,
+	)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// CreateTODOをエンコード
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		fmt.Println(err)
+	}
+
+	// StatusOKを返す
+	w.WriteHeader(http.StatusOK)
 }
 
 // Create handles the endpoint that creates the TODO.
